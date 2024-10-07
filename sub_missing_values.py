@@ -62,14 +62,18 @@ def sub_missing_values(caminho):
         for row, valor in enumerate(atributo): # Percorre os valores de cada atributo
             class_missing_value = ""
             if valor == '?':
-                # print(x_np[row][col], row, col)
                 class_missing_value = y_np[row]
                 mean = get_mean(class_missing_value, col, x_np, y_np, hierarquia)
                 x_np[row][col] = mean
 
-    x_new = pd.DataFrame(x_np.astype('float32'), columns=colunas[:-1])
+    x_new = pd.DataFrame(x_np, columns=colunas[:-1])
     x_new['class'] = y
     data = x_new.copy()
+
+    # Feito para controlar os valores númericos, pois certos valores estavam sofrendo de perda de precisão, para isso, arredondamos todos os valores 4 casas decimais.
+    for col in data.columns:
+        data[col] = pd.to_numeric(data[col], errors='ignore')
+    data = data.round(4)
 
     dataframe_to_arff(data, 'dataset_sem_valores_ausentes', 'Datasets/dataset_sem_valores_ausentes.arff', hierarquia)
 

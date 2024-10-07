@@ -7,9 +7,7 @@ from dataframe_to_arff import dataframe_to_arff
 def discretizacao_nao_supervisionada(caminho):
     dataset, hierarquia, columns = read_arff(caminho)
     for column in dataset.columns[:-1]:
-        dataset[column].astype(float)
-    print(dataset.dtypes)
-    print(dataset.info())
+        dataset[column].astype('float64')
     data_discretizado = pd.DataFrame()
     for column in dataset.columns[:-1]:
         data_discretizado[column] = pd.qcut(dataset[column], q=20, labels=range(1,21))
