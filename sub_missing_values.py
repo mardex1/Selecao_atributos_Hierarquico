@@ -50,7 +50,7 @@ def get_mean(classe, col, x_np, y_np, hierarquia):
     return sum/n
 
 
-def sub_missing_values(caminho):
+def sub_missing_values(caminho, nome_dataset):
     dataset, hierarquia, colunas = read_arff(caminho)
 
     y = dataset['class']
@@ -75,7 +75,7 @@ def sub_missing_values(caminho):
         data[col] = pd.to_numeric(data[col], errors='ignore')
     data = data.round(4)
 
-    dataframe_to_arff(data, 'dataset_sem_valores_ausentes', 'Datasets/dataset_sem_valores_ausentes.arff', hierarquia)
+    dataframe_to_arff(data, 'dataset_sem_valores_ausentes', f'Datasets/processados/{nome_dataset}_sem_valores_ausentes.arff', hierarquia)
 
     return data
 

@@ -5,21 +5,30 @@ from multirotulo_to_monorotulo import make_monorotulo
 from sub_missing_values import sub_missing_values
 from agrega_classes import agrega_classes
 from discretizacao_nao_supervisionada import discretizacao_nao_supervisionada
+import warnings
+warnings.simplefilter(action='ignore', category=FutureWarning)
 
-def run():
-    dataset_concatenado = concatena_arquivo_arff('Datasets/nao_processados')
+def run(caminho):
+    nome_dataset = caminho.split('/')[-1]
 
-    dataset_monorotulo = make_monorotulo('Datasets/dataset_concatenado.arff')
+    dataset_concatenado = concatena_arquivo_arff(caminho, nome_dataset)
 
-    dataset_no_missing = sub_missing_values('Datasets/dataset_monorotulo.arff')
+    dataset_monorotulo = make_monorotulo(f'Datasets/processados/{nome_dataset}_concatenado.arff', 
+                                         nome_dataset)
 
-    dataset_agregado, dict_count = agrega_classes('Datasets/dataset_sem_valores_ausentes.arff')
+    dataset_no_missing = sub_missing_values(f'Datasets/processados/{nome_dataset}_monorotulo.arff', 
+                                            nome_dataset)
 
-    dataset_discretizado = discretizacao_nao_supervisionada('Datasets/dataset_agregado.arff')
+    dataset_agregado, dict_count = agrega_classes(f'Datasets/processados/{nome_dataset}_sem_valores_ausentes.arff', 
+                                                  nome_dataset)
+
+    dataset_discretizado = discretizacao_nao_supervisionada(f'Datasets/processados/{nome_dataset}_agregado.arff', 
+                                                            nome_dataset)
+    
 
 if __name__ == '__main__':
     print('Executando Pré-processamento...')
     
-    run()
+    run('Datasets/nao_processados/cellcycle')
     
     print('Pré-processamento realizado com sucesso!')

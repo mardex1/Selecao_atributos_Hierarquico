@@ -5,7 +5,7 @@ import pandas as pd
 from read_arff import read_arff
 from dataframe_to_arff import dataframe_to_arff
 
-def make_monorotulo(caminho):
+def make_monorotulo(caminho, nome_dataset):
     dataset, hierarquia, columns = read_arff(caminho)
     y = dataset['class']
     x = dataset.drop('class', axis=1)
@@ -31,6 +31,6 @@ def make_monorotulo(caminho):
     y_new = pd.DataFrame(y_np, columns=['class'])
     dataset_monorotulo = pd.concat([x, y_new], axis=1)
 
-    dataframe_to_arff(dataset_monorotulo, 'dataset_monorotulo', 'Datasets/dataset_monorotulo.arff', hierarquia)
+    dataframe_to_arff(dataset_monorotulo, 'dataset_monorotulo', f'Datasets/processados/{nome_dataset}_monorotulo.arff', hierarquia)
 
     return dataset_monorotulo

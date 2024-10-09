@@ -8,7 +8,7 @@ import pandas as pd
 from read_arff import read_arff
 from dataframe_to_arff import dataframe_to_arff
 
-def agrega_classes(caminho):
+def agrega_classes(caminho, nome_dataset):
     dataset, hierarquia, columns = read_arff(caminho)
 
     # Descobre a profundidade da hierarquia
@@ -50,5 +50,5 @@ def agrega_classes(caminho):
         for classe in dataset['class']:
             dict_count[classe] += 1
 
-    dataframe_to_arff(dataset, 'dataset_agregado', 'Datasets/dataset_agregado.arff', hierarquia)
+    dataframe_to_arff(dataset, 'dataset_agregado', f'Datasets/processados/{nome_dataset}_agregado.arff', hierarquia)
     return dataset, dict_count

@@ -11,9 +11,9 @@ def dataframe_to_arff(df, nome_relacao, caminho_arquivo, hierarquia):
         for coluna in df.columns:
             tipo = df[coluna].dtype
             if coluna != 'class': # Significa que era uma coluna numérica porém foi discretizada
-                f.write(f"@ATTRIBUTE {coluna} \t\t\t\tnumeric\n")
+                f.write(f"@ATTRIBUTE {coluna} numeric\n")
             else:
-                f.write(f'@ATTRIBUTE {coluna} \t\t\t\thierarchical ')
+                f.write(f'@ATTRIBUTE {coluna} hierarchical ')
                 f.write(','.join(hierarquia))
                 f.write('\n')
 

@@ -1,4 +1,6 @@
 from read_arff import read_arff
+from dataframe_to_arff import dataframe_to_arff
+
 import pandas as pd
 import numpy as np
 import time
@@ -49,7 +51,8 @@ def conserta(x_agreggated, idx, n):
     return x_agreggated
 #Implementação do ADH2C
 
-def ADH2C(data_pd, hierarquia):
+def ADH2C(data_pd, hierarquia, col):
+
     data = data_pd.to_numpy()
     # Salvo os indices originais, para que no final, a ordenação mantenha as instâncias como eram inicialmente.
     indices = np.argsort(data[:, 0])
@@ -90,7 +93,6 @@ def ADH2C(data_pd, hierarquia):
         dist_min = float('inf')
         idx_min = -1
         # procura a distância miníma entre as partições
-        print(n_particoes)
         for i in range(n-1):
             if x_agreggated[i] != x_agreggated[i+1]:
                 new_dist = distancia_particoes_adjacentes(x_agreggated[i], x_agreggated[i+1], x_agreggated, y, hierarquia)
@@ -114,8 +116,10 @@ def ADH2C(data_pd, hierarquia):
         dist_vet.append(dist_min)
         candidatos.append(x_agreggated.copy())
         n_particoes -= 1
+
     end = time.time()
-    print(end - start)
+    print(f'Tempo de execução para a coluna {col}: {end-start}')
+
     # seleção melhores candidatos
     if min(dist_vet) > 1:
         return x_inicial[np.argsort(indices)]
@@ -136,13 +140,18 @@ def ADH2C(data_pd, hierarquia):
     else:
         return candidatos[id][np.argsort(indices)]
 
-dataset, hierarquia, columns = read_arff('Datasets/nao_processados/Hglass.arff')
-dataset_discretized = pd.DataFrame(columns=columns)
-y = dataset['class']
-for col in dataset.columns[:-1]:
-    data = pd.concat([dataset[col], y], axis=1)
-    discretized = ADH2C(data, hierarquia)
-    dataset_discretized[col] = discretized
-dataset_discretized['class'] = y
-print(dataset_discretized)
 
+def executa_discretizacao_hierarquica(caminho):
+    dataset, hierarquia, columns = read_arff(caminho)
+    dataset_discretized = pd.DataFrame(columns=columns)
+    y = dataset['class']
+    for col in dataset.columns[:-1]:
+        data = pd.concat([dataset[col], y], axis=1)
+        discretized = ADH2C(data, hierarquia, col)
+        dataset_discretized[col] = discretized
+    dataset_discretized['class'] = y
+    nome_dataset = caminho.split('/')[-1].split('.')[0]
+    dataframe_to_arff(dataset_discretized, f'{nome_dataset}_discretizado',
+                      f'Datasets/{nome_dataset}_discretizado.arff', hierarquia)
+
+executa_discretizacao_hierarquica('Datasets/nao_processados/Hglass.arff')
