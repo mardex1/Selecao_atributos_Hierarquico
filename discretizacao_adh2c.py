@@ -154,4 +154,4 @@ def executa_discretizacao_hierarquica(caminho):
     dataframe_to_arff(dataset_discretized, f'{nome_dataset}_discretizado',
                       f'Datasets/{nome_dataset}_discretizado.arff', hierarquia)
 
-executa_discretizacao_hierarquica('Datasets/nao_processados/Hglass.arff')
+executa_discretizacao_hierarquica('Datasets/nao_processados/birds.arff')

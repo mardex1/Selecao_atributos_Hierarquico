@@ -27,7 +27,7 @@ def agrega_classes(caminho, nome_dataset):
     # Contagem de cada classe.
     for classe in y:
         dict_count[classe] += 1
-
+    print(dict_count)
     nivel_i = profundidade
     while nivel_i >= 1:
         for classe, count in dict_count.items():

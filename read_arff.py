@@ -34,8 +34,8 @@ def read_arff(path):
         data.append(values) # Coloca tudo em um array no formato [[instancia1], [instancia2]], onde cada instancia apresenta 78 colunas, com uma delas sendo a classe.
 
     dataset = pd.DataFrame(data=data, columns=columns) # Cria um dataFrame do pandas.
-
-    for col in dataset.columns:
+    print(dataset['class'])
+    for col in dataset.columns[:-1]:
         dataset[col] = pd.to_numeric(dataset[col], errors='ignore')
-
+    dataset['class'].astype('object')
     return dataset, hierarquia.split(','), columns

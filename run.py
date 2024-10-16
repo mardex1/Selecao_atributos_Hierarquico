@@ -11,9 +11,9 @@ warnings.simplefilter(action='ignore', category=FutureWarning)
 def run(caminho):
     nome_dataset = caminho.split('/')[-1]
 
-    dataset_concatenado = concatena_arquivo_arff(caminho, nome_dataset)
+    # dataset_concatenado = concatena_arquivo_arff(caminho, nome_dataset)
 
-    dataset_monorotulo = make_monorotulo(f'Datasets/processados/{nome_dataset}_concatenado.arff', 
+    dataset_monorotulo = make_monorotulo(f'Datasets/nao_processados/NMLNP/{nome_dataset}', 
                                          nome_dataset)
 
     dataset_no_missing = sub_missing_values(f'Datasets/processados/{nome_dataset}_monorotulo.arff', 
@@ -29,6 +29,6 @@ def run(caminho):
 if __name__ == '__main__':
     print('Executando Pré-processamento...')
     
-    run('Datasets/nao_processados/cellcycle')
+    run('Datasets/nao_processados/eisen.arff')
     
     print('Pré-processamento realizado com sucesso!')
