@@ -13,7 +13,6 @@ def agrega_classes(caminho, nome_dataset):
 
     # Descobre a profundidade da hierarquia
     y = dataset['class']
-    reduziu = False
     profundidade = 0
     caminho = ""
     dict_count = {}
