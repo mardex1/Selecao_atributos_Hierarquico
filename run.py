@@ -29,6 +29,6 @@ def run(caminho):
 if __name__ == '__main__':
     print('Executando Pré-processamento...')
     
-    run('Datasets/nao_processados/eisen.arff')
+    run('Datasets/nao_processados/NMLNP/fma_mfcc.arff')
     
     print('Pré-processamento realizado com sucesso!')

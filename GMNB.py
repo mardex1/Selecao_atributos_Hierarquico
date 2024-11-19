@@ -81,19 +81,21 @@ class NaiveBayesH:
             posteriors = []
             # Para cada classe
             for idx, c in enumerate(self.classes):
-                # log(P(c)) + log(P(x1|c)) + log(P(x2|c)) + log(P(x3|c)) + log(P(x4|c))
+
                 # Pega a probabilidade a priori da classe
                 prior = np.log(self.prior_prob[idx])
                 likelihood = 0
                 # para cada feature
                 for feature_idx, feature_val in enumerate(x):
                     print(feature_idx, feature_val)
-                    # Get the feature probability given the class
+                    # Se eu encontrar o valor da feature nos dicionários, somo sua probabilidade.
                     if feature_val in self.feature_probs[feature_idx][c]:
                         likelihood += np.log(self.feature_probs[feature_idx][c][feature_val])
                     else:
-                        # Handle unseen features (e.g., with Laplace smoothing, assume very small probability)
+                        # Lida com valores não vistos, substitui a probabilidade com um valor muito pequeno.
                         likelihood += np.log(1e-9)
+                # Calculo a posterior
+                # log(P(c)) + log(P(x1|c)) + log(P(x2|c)) + log(P(x3|c)) + log(P(x4|c))
                 posterior = prior + likelihood
                 if usefullness:
                     posterior += np.log(usefullness_list[idx])
