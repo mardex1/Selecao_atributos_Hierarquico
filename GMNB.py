@@ -44,6 +44,10 @@ class NaiveBayesH:
         self.classes = self.gera_hierarquia_completa(hierarquia)
 
     def fit(self, X, y):
+    def __init__(self, hierarquia):
+        self.classes = self.gera_hierarquia_completa(hierarquia)
+
+    def fit(self, X, y):
         n_samples, n_features = X.shape
 
         self.descendentes = self.gera_descendentes(X, y) 
@@ -52,6 +56,7 @@ class NaiveBayesH:
         # Lista com um dicionário para cada feature.
         # Nesse dicionário, teremos uma chave para cada classe, sendo os valores mais outros dicionários com os valores do atributo.
         self.feature_probs = [{} for _ in range(n_features)]
+        self.prior_prob = {classe: 0 for classe in self.classes}
         self.prior_prob = {classe: 0 for classe in self.classes}
 
         for idx, c in enumerate(self.classes):
@@ -88,13 +93,20 @@ class NaiveBayesH:
                 else:
                     prior = np.log(self.prior_prob[c])
                 
+                if self.prior_prob[c] == 0:
+                    prior = np.log(1e-9)
+                else:
+                    prior = np.log(self.prior_prob[c])
+                
                 likelihood = 0
                 # para cada feature
                 for feature_idx, feature_val in enumerate(x):
                     # Pega a probabilidade de feature, dado a classe e seu valor.
+                    # Pega a probabilidade de feature, dado a classe e seu valor.
                     if feature_val in self.feature_probs[feature_idx][c]:
                         likelihood += np.log(self.feature_probs[feature_idx][c][feature_val])
                     else:
+                        # Substitui por um valor muito pequeno, caso a probabilidade seja zero, para que não haja log de zero.
                         # Substitui por um valor muito pequeno, caso a probabilidade seja zero, para que não haja log de zero.
                         likelihood += np.log(1e-9)
                 posterior = prior + likelihood
@@ -119,6 +131,7 @@ class NaiveBayesH:
     def calculate_usefullness(self):
         max_tree_size = max([len(value) for key, value in self.descendentes.items()])
         usefullness = []
+        for c in self.classes:
         for c in self.classes:
             tree_size_i = len(self.descendentes[c])
             usefullness_i = 1 - (np.log2(tree_size_i) / max_tree_size)
@@ -161,9 +174,12 @@ if __name__ == "__main__":
     # y = data[:, -1]
 
     model = NaiveBayesH(hier)
+    model = NaiveBayesH(hier)
     model.fit(X, y)
     classes = model.classes
+    classes = model.classes
     predictions = model.predict(X, usefullness=True)
+    print("************************ Modelo GMNB ************************")
     print("************************ Modelo GMNB ************************")
     print("Accuracy: ", sum(predictions == y) / len(y))
     f1_hier = f_measure_hierarquica(predictions, y, classes)
@@ -172,6 +188,7 @@ if __name__ == "__main__":
     model_sk = CategoricalNB()
     model_sk.fit(X, y)
     predictions = model_sk.predict(X)
+    print("************************ Modelo Scikit-Learn ************************")
     print("************************ Modelo Scikit-Learn ************************")
     print("Accuracy: ", sum(predictions == y) / len(y))
     f1_hier = f_measure_hierarquica(predictions, y, classes)
