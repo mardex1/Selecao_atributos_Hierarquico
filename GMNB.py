@@ -40,27 +40,23 @@ def f_measure_hierarquica(predictions, y_true, classes):
 
     pass
 class NaiveBayesH:
-    def fit(self, X, y, hierarquia=None):
+    def __init__(self, hierarquia):
+        self.classes = self.gera_hierarquia_completa(hierarquia)
+
+    def fit(self, X, y):
         n_samples, n_features = X.shape
-        # self.classes = self.gera_hierarquia_completa(hierarquia)
-        self.classes = np.unique(y)
-        n_classes = len(self.classes)
 
         self.descendentes = self.gera_descendentes(X, y) 
-        self.ancestrais = gera_ancestrais(classes)
-        
+        self.ancestrais = gera_ancestrais(self.classes)
+
         # Lista com um dicionário para cada feature.
         # Nesse dicionário, teremos uma chave para cada classe, sendo os valores mais outros dicionários com os valores do atributo.
         self.feature_probs = [{} for _ in range(n_features)]
-        self.prior_prob = np.zeros(n_classes, dtype=np.float64)
+        self.prior_prob = {classe: 0 for classe in self.classes}
 
         for idx, c in enumerate(self.classes):
-            # Seleciona as instâncias da classe atual.
-            print(c)
-            X_c = X[np.isin(y, self.ancestrais[c])].astype(np.float64)
-            print(f'hierarquico: {len(X_c)}')
-            X_plano = X[y == c]
-            print(f'plano: {len(X_plano)}')
+            # Seleciona as instâncias da classe atual
+            X_c = X[y == c]
 
             n_instancias_classe_c = X_c.shape[0]
             # Para cada feature, seleciona as contagens de cada valor nessa feature.
@@ -69,7 +65,11 @@ class NaiveBayesH:
                 # Armazena em um dicionário, pares valor do atributo e sua probabilidade (contagem do atributo / instâncias da classe c)
                 feature_prob = {val: count / n_instancias_classe_c for val, count in zip(feature_vals, counts)}
                 self.feature_probs[feature_idx][c] = feature_prob
-            self.prior_prob[idx] = n_instancias_classe_c / float(n_samples)
+            for classe in self.ancestrais[c]:
+                self.prior_prob[classe] += n_instancias_classe_c
+        for classe in self.prior_prob:
+            self.prior_prob[classe] /= n_samples
+        # print(sorted(self.prior_prob.items(), key=lambda prior_prob : prior_prob[1], reverse=True))
 
     def predict(self, X_test, usefullness=False):
         if usefullness:
@@ -81,21 +81,22 @@ class NaiveBayesH:
             posteriors = []
             # Para cada classe
             for idx, c in enumerate(self.classes):
-
+                # log(P(c)) + log(P(x1|c)) + log(P(x2|c)) + log(P(x3|c)) + log(P(x4|c))
                 # Pega a probabilidade a priori da classe
-                prior = np.log(self.prior_prob[idx])
+                if self.prior_prob[c] == 0:
+                    prior = np.log(1e-9)
+                else:
+                    prior = np.log(self.prior_prob[c])
+                
                 likelihood = 0
                 # para cada feature
                 for feature_idx, feature_val in enumerate(x):
-                    print(feature_idx, feature_val)
-                    # Se eu encontrar o valor da feature nos dicionários, somo sua probabilidade.
+                    # Pega a probabilidade de feature, dado a classe e seu valor.
                     if feature_val in self.feature_probs[feature_idx][c]:
                         likelihood += np.log(self.feature_probs[feature_idx][c][feature_val])
                     else:
-                        # Lida com valores não vistos, substitui a probabilidade com um valor muito pequeno.
+                        # Substitui por um valor muito pequeno, caso a probabilidade seja zero, para que não haja log de zero.
                         likelihood += np.log(1e-9)
-                # Calculo a posterior
-                # log(P(c)) + log(P(x1|c)) + log(P(x2|c)) + log(P(x3|c)) + log(P(x4|c))
                 posterior = prior + likelihood
                 if usefullness:
                     posterior += np.log(usefullness_list[idx])
@@ -113,13 +114,12 @@ class NaiveBayesH:
                     descendentes[c2] = [c1]
                 elif c2 in c1 and c2 in descendentes:
                     descendentes[c2].append(c1)
-        print(descendentes)
         return descendentes
     
     def calculate_usefullness(self):
         max_tree_size = max([len(value) for key, value in self.descendentes.items()])
         usefullness = []
-        for idx, c in enumerate(self.classes):
+        for c in self.classes:
             tree_size_i = len(self.descendentes[c])
             usefullness_i = 1 - (np.log2(tree_size_i) / max_tree_size)
             usefullness.append(usefullness_i)
@@ -128,12 +128,11 @@ class NaiveBayesH:
     def gera_hierarquia_completa(self, hierarquia):
         hierarquia_completa = []
         for classe in hierarquia:
-            for _ in range(len(classe.split('/'))):
+            for _ in range(len(classe.split('.'))):
                 if classe not in hierarquia_completa:
                     hierarquia_completa.append(classe)
-                    classe = classe.split('/')[:-1]
-                    print(classe)
-                    classe = '/'.join(classe)
+                    classe = classe.split('.')[:-1]
+                    classe = '.'.join(classe)
         return hierarquia_completa
 
 
@@ -142,6 +141,8 @@ if __name__ == "__main__":
     print(data)
     X = data.to_numpy()[:, :-1]
     y = data.to_numpy()[:, -1]
+    
+    # Toy example:
     # data = np.array([[0.12, 2, "R.1.1"],
     # [0.15, 3, "R.1.1"],
     # [0.24, 4, "R.2"],
@@ -158,12 +159,12 @@ if __name__ == "__main__":
     # [6.73, 15,"R.1.2"]])
     # X = data[:, :-1].astype(np.float64)
     # y = data[:, -1]
-    classes = np.unique(y)
 
-
-    model = NaiveBayesH()
+    model = NaiveBayesH(hier)
     model.fit(X, y)
+    classes = model.classes
     predictions = model.predict(X, usefullness=True)
+    print("************************ Modelo GMNB ************************")
     print("Accuracy: ", sum(predictions == y) / len(y))
     f1_hier = f_measure_hierarquica(predictions, y, classes)
     print('F-measure-hierarquica: ', f1_hier)
@@ -171,20 +172,7 @@ if __name__ == "__main__":
     model_sk = CategoricalNB()
     model_sk.fit(X, y)
     predictions = model_sk.predict(X)
-    print(model_sk.get_params())
+    print("************************ Modelo Scikit-Learn ************************")
     print("Accuracy: ", sum(predictions == y) / len(y))
     f1_hier = f_measure_hierarquica(predictions, y, classes)
     print('F-measure-hierarquica: ', f1_hier)
-
-
-    # Xtr, Xts, y, yts = train_test_split(X, y, test_size=0.2, random_state=42)
-    
-    # print(X)
-    # print(y)
-
-
-    # model = NaiveBayes()
-    # model.fit(X, y)
-    # predictions = model.predict(X)
-    # print(predictions)
-    # print(y)

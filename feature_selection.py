@@ -130,6 +130,7 @@ def get_padroes(data):
     y = data["class"].values.tolist()
     padroes = {}
     for i, padrao in enumerate(x):
+      print(padrao)
       if tuple(padrao) in padroes:
         padroes[tuple(padrao)].append(y[i])
       else:
@@ -139,8 +140,12 @@ def get_padroes(data):
 def inconsistency_rate(data):
     # Retorna um dicionário "padrões", que é composto por um tupla com o padrão e as classes as quais ele aparece(podem haver classes repetidas).
     padroes, x, y = get_padroes(data)
+    
+    padroes_len = {padrao: len(classe_p) for padrao, classe_p in padroes.items()}
+    # print("******************************************************************")
+    # print(sorted(padroes_len.items(), key=lambda padroes_len: padroes_len[1], reverse=True))
     inconsistency_counts = []
-   
+    print(padroes)
     for padrao, classes_p in padroes.items():
         # Procuramos por padrões que acontecem mais que uma vez.
         if len(classes_p) > 1:
@@ -160,26 +165,28 @@ data, hier, cols = read_arff('Datasets/processados/fma_mfcc.arff_discretizado.ar
 
 # print(find_subset(cols, data)) ['feature3', 'feature12', 'feature9', 'feature7', 'feature5', 'feature13', 'feature1', 'feature8', 'feature6', 'feature4', 'feature10', 'feature11']
 
+
+
+
+
+
+data = np.array([[3, 2, 10,"R.1.1"],
+    [3, 2, 11,"R.1.1"],
+    [1, 4, 10,"R.2"],
+    [1, 4, 12,"R.2.1"],
+    [4, 2, 11,"R.1.1"],
+    [2, 5, 13, "R.2.1"],
+    [1, 4, 15, "R.2"],
+    [3, 2, 15, "R.1.1.1"],
+    [1, 5, 12, "R.2.1"],
+    [3, 1, 21, "R.1.2"],
+    [3, 2, 21, "R.1.1.1"],
+    [1, 4, 11,"R.2.1"],
+    [3, 1, 10,"R.1.2"],
+    [3, 1, 11,"R.1.2"]])
+    # X = data[:, :-1].astype(np.float64)
+    # y = data[:, -1]
+data = pd.DataFrame(data, columns=['col1', 'col2', 'col3', 'class'])
+
 print(best_first(data, 10))
-
-
-
-
-# data = np.array([[3, 2, "R.1.1"],
-#     [3, 2, "R.1.1"],
-#     [1, 4, "R.2"],
-#     [1, 4, "R.2.1"],
-#     [4, 2, "R.1.1"],
-#     [2, 5, "R.2.1"],
-#     [1, 4, "R.2"],
-#     [3, 2, "R.1.1.1"],
-#     [1, 5, "R.2.1"],
-#     [3, 1,"R.1.2"],
-#     [3, 2,"R.1.1.1"],
-#     [1, 4,"R.2.1"],
-#     [3, 1,"R.1.2"],
-#     [3, 1,"R.1.2"]])
-#     # X = data[:, :-1].astype(np.float64)
-#     # y = data[:, -1]
-# data = pd.DataFrame(data, columns=['col1', 'col2', 'class'])
 print(inconsistency_rate_h(data))
