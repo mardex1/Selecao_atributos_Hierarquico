@@ -44,10 +44,6 @@ class NaiveBayesH:
         self.classes = self.gera_hierarquia_completa(hierarquia)
 
     def fit(self, X, y):
-    def __init__(self, hierarquia):
-        self.classes = self.gera_hierarquia_completa(hierarquia)
-
-    def fit(self, X, y):
         n_samples, n_features = X.shape
 
         self.descendentes = self.gera_descendentes(X, y) 
@@ -131,7 +127,6 @@ class NaiveBayesH:
     def calculate_usefullness(self):
         max_tree_size = max([len(value) for key, value in self.descendentes.items()])
         usefullness = []
-        for c in self.classes:
         for c in self.classes:
             tree_size_i = len(self.descendentes[c])
             usefullness_i = 1 - (np.log2(tree_size_i) / max_tree_size)
