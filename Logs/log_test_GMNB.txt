@@ -1,0 +1,16 @@
+
+
+========================= DATASET GCPR-Pfam =========================
+
+F-measure Hierárquica para partição 1/10 = 0.6894
+F-measure Hierárquica para partição 2/10 = 0.7022
+F-measure Hierárquica para partição 3/10 = 0.706
+
+
+========================= DATASET GCPR-Pfam =========================
+
+
+
+========================= DATASET GCPR-Pfam =========================
+
+F-measure Hierárquica para partição 1/10 = 0.6894

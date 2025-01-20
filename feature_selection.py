@@ -25,33 +25,89 @@ def avalia(arr, cols, x, y):
     data = pd.DataFrame(np.array(subconjunto).T, columns=columns)
     data['class'] = y
 
-    i_r = inconsistency_rate_h(data)
-    return i_r
+    i_r, porcent_padroes_unicos = inconsistency_rate_h(data)
+    return i_r, porcent_padroes_unicos
+
+def entropy_c(A):
+  values, counts = np.unique(A, return_counts=True)
+  prob = counts/len(A)
+  entropy = -np.sum(prob*np.log2(prob))
+  return entropy
+
+def conserta_y(y):
+  dict_count = {}
+  for elem in y:
+    dict_count[elem] = 0
+    while len(elem[:-2]) > 1:
+      elem = elem[:-2]
+      dict_count[elem] = 0
+  return dict_count
+
+def entropy_h(A):
+  values = np.unique(A)
+  dict_count = conserta_y(A)
+  nivel_maximo = 2
+  arr_res = []
+  for elem in A:
+    dict_count[elem] += 1
+    while len(elem[:-2]) > 1:
+      elem = elem[:-2]
+      dict_count[elem] += 1
+  for key, value in dict_count.items():
+    prob = value/len(A)
+    nivel_atual = len(key.split('.')) - 1
+    w_i = (nivel_maximo - nivel_atual + 1) * (2/(nivel_maximo * (nivel_maximo + 1)))
+    arr_res.append(prob * np.log2(prob) * w_i if prob != 0 else 0)
+  return -sum(arr_res)
+
+def conditional_entropy_h(atributo, atributo_classe):
+  n = len(atributo)
+  sum = 0
+  for valor in np.unique(atributo):
+    indices = np.where(valor == atributo)[0]
+    k = len(indices)
+    entropia_sub_data = entropy_h(atributo_classe[indices])
+    sum += k/n * entropia_sub_data
+  return sum
+
+def symmetrical_uncertainty_h(data):
+  x = data.drop('class', axis=1)
+  y = data['class']
+  symmetrical_uncertainties = []
+  for col in x.columns:
+    entropy_x = entropy_c(x[col])
+    entropy_y = entropy_h(y)
+    cond_entropy_h = conditional_entropy_h(x[col], y)
+    ganho_informacao = entropy_y - cond_entropy_h
+    sym_unc = 2*ganho_informacao/(entropy_x + entropy_y)
+    symmetrical_uncertainties.append(sym_unc)
+  return sum(symmetrical_uncertainties) / len(x.columns)
 
 def best_first(data, limiar):
   x = data.drop('class', axis=1).to_numpy()
   y = data['class'].to_numpy()
   cols = data.columns.tolist()
 
-
   explorar = expande([0 for i in range(len(x.T))])
   metric_dict = {tuple(elem):avalia(elem, cols, x, y) for elem in explorar}
-  
   visitados = [[0 for i in range(len(x.T))]]
-  min_metric_value = float('inf')
+  min_metric_value = float('inf') # MUDAR PARA MAXIMIZAÇÃO
   retornos = 0
   melhor_subconjunto = [0 for i in range(len(x.T))]
   
   while len(metric_dict) > 0 and retornos <= limiar:
     # Retorna chave com menor valor associado.
-    best_solution = min(metric_dict, key=metric_dict.get)
-    best_solution = list(best_solution)
+    best_solution_tuple = min(metric_dict.items(), key=lambda item:item[1][0]) # MUDAR PARA MAXIMIZAÇÃO
+    best_solution = list(best_solution_tuple[0])
     print('Melhor solução atual: ', best_solution)
-    print('inconsistency_rate: ', metric_dict[tuple(best_solution)])
+    print('Número de features: ', sum(best_solution))
+    print('Inconsistency_rate: ', metric_dict[tuple(best_solution)][0])
+    print(f'Porcentagem de valores únicos: {round(metric_dict[tuple(best_solution)][1], 2)}%')
     # Se a métrica for menor que o mínimo que se tem até o momento, atualiza o mínimo que se tem até o momento
-    if metric_dict[tuple(best_solution)] <= min_metric_value:
-      min_metric_value = metric_dict[tuple(best_solution)]
+    if metric_dict[tuple(best_solution)][0] < min_metric_value:
+      min_metric_value = metric_dict[tuple(best_solution)][0]
       melhor_subconjunto = best_solution
+      porcent_unique_melhor_subconjunto = metric_dict[tuple(best_solution)][1]
     # Se não, checa se houve retorno, ou seja, a nova solução tem o mesmo tanto ou um número menor de atributos que a ultima solução.
     elif sum(best_solution) <= sum(visitados[-1]):
       retornos += 1
@@ -62,7 +118,7 @@ def best_first(data, limiar):
     for elem in explorar:
       if elem not in visitados:
         metric_dict[tuple(elem)] = avalia(elem, cols, x, y)
-  return visitados, melhor_subconjunto, min_metric_value
+  return visitados, melhor_subconjunto, min_metric_value, porcent_unique_melhor_subconjunto
 
 def find_subset(S, D):
     y = D['class']
@@ -90,7 +146,7 @@ def inConCal(features, x, y):
 
 def find_height(y):
     # Cria uma lista com os tamanhos de cada string de label e pega o maior
-    max_len = max(len(label.split('/')) for label in y)
+    max_len = max(len(label.split('.')) for label in y)
     return max_len
 
 def truncate_data(data_selecionado, nivel_atual):
@@ -99,9 +155,9 @@ def truncate_data(data_selecionado, nivel_atual):
   y_new = []
   for idx, elem in data_truncado['class'].items():
     temp_elem = elem
-    while len(temp_elem.split('/')) > nivel_atual:
-       temp_elem_list = temp_elem.split('/')[:-1]
-       temp_elem = '/'.join(temp_elem_list)
+    while len(temp_elem.split('.')) > nivel_atual:
+       temp_elem_list = temp_elem.split('.')[:-1]
+       temp_elem = '.'.join(temp_elem_list)
     data_truncado.loc[idx, 'class'] = temp_elem
   return data_truncado
 
@@ -109,19 +165,21 @@ def truncate_data(data_selecionado, nivel_atual):
 def inconsistency_rate_h(data):
     nivel_maximo = find_height(data['class'])
     arr_res = []
+    porcent_padroes_unicos_arr = []
     # Itera por cada nível
     for nivel_atual in range(1, nivel_maximo+1):
         # Seleciona um subconjunto a qual todas as classes pertencem ou são descendentes do nível atual 
-        data_selecionado = data[data['class'].str.split('/').apply(len) >= nivel_atual]
+        data_selecionado = data[data['class'].str.split('.').apply(len) >= nivel_atual]
 
         # Todas as classes descendentes são transformadas em classe de um único nível:
         # nivel_atual = 2 - g/w/b -> g/w
         data_truncado = truncate_data(data_selecionado, nivel_atual)
 
         w_i = (nivel_maximo - nivel_atual + 1) * (2/(nivel_maximo*(nivel_maximo+1))) # pesos somam 1
-        i_r = inconsistency_rate(data_truncado)
+        i_r, porcent_padroes_unicos = inconsistency_rate(data_truncado)
         arr_res.append(i_r*w_i)
-    return sum(arr_res)
+        porcent_padroes_unicos_arr.append(porcent_padroes_unicos)
+    return sum(arr_res), np.mean(porcent_padroes_unicos)
 
 def get_padroes(data):
     # Dicionário no formato {(padrão), [classes que o padrão aparece]}
@@ -130,7 +188,6 @@ def get_padroes(data):
     y = data["class"].values.tolist()
     padroes = {}
     for i, padrao in enumerate(x):
-      print(padrao)
       if tuple(padrao) in padroes:
         padroes[tuple(padrao)].append(y[i])
       else:
@@ -140,15 +197,14 @@ def get_padroes(data):
 def inconsistency_rate(data):
     # Retorna um dicionário "padrões", que é composto por um tupla com o padrão e as classes as quais ele aparece(podem haver classes repetidas).
     padroes, x, y = get_padroes(data)
-    
-    padroes_len = {padrao: len(classe_p) for padrao, classe_p in padroes.items()}
-    # print("******************************************************************")
-    # print(sorted(padroes_len.items(), key=lambda padroes_len: padroes_len[1], reverse=True))
     inconsistency_counts = []
-    print(padroes)
+    # (0, 1, 0): [R.1.1, R.2.1, R.1.1] ([R.1.1, R.1.1], [2]) 3-2= 1
+    n_padroes_unicos = 0
     for padrao, classes_p in padroes.items():
         # Procuramos por padrões que acontecem mais que uma vez.
-        if len(classes_p) > 1:
+        if len(classes_p) == 1:
+            n_padroes_unicos += 1
+        else:
             # Retorna a contagem de cada classe em que o padrão específico aparece
             uniq_value, class_counts = np.unique(classes_p, return_counts=True)
             
@@ -158,35 +214,10 @@ def inconsistency_rate(data):
             
             freq_majoritary_class = np.max(class_counts)
             inconsistency_counts.append(len(classes_p) - freq_majoritary_class)
+    porcent_padroes_unicos = n_padroes_unicos / len(padroes) * 100
     inconsistency_rate = sum(inconsistency_counts) / len(x)
-    return inconsistency_rate
+    return inconsistency_rate, porcent_padroes_unicos
 
-data, hier, cols = read_arff('Datasets/processados/fma_mfcc.arff_discretizado.arff')
+# data, hier, cols = read_arff('Datasets/BasesPreProcessadas/GCPR-Prosite/GPCR-PrositeTRA0.arff')
 
-# print(find_subset(cols, data)) ['feature3', 'feature12', 'feature9', 'feature7', 'feature5', 'feature13', 'feature1', 'feature8', 'feature6', 'feature4', 'feature10', 'feature11']
-
-
-
-
-
-
-data = np.array([[3, 2, 10,"R.1.1"],
-    [3, 2, 11,"R.1.1"],
-    [1, 4, 10,"R.2"],
-    [1, 4, 12,"R.2.1"],
-    [4, 2, 11,"R.1.1"],
-    [2, 5, 13, "R.2.1"],
-    [1, 4, 15, "R.2"],
-    [3, 2, 15, "R.1.1.1"],
-    [1, 5, 12, "R.2.1"],
-    [3, 1, 21, "R.1.2"],
-    [3, 2, 21, "R.1.1.1"],
-    [1, 4, 11,"R.2.1"],
-    [3, 1, 10,"R.1.2"],
-    [3, 1, 11,"R.1.2"]])
-    # X = data[:, :-1].astype(np.float64)
-    # y = data[:, -1]
-data = pd.DataFrame(data, columns=['col1', 'col2', 'col3', 'class'])
-
-print(best_first(data, 10))
-print(inconsistency_rate_h(data))
+# print(best_first(data, 5))

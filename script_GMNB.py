@@ -3,8 +3,8 @@ import numpy as np
 from read_arff import read_arff
 from GMNB import NaiveBayesH, f_measure_hierarquica
 
-caminho_base = "Datasets/BasesPreProcessadas"
-caminho_log = "Logs/log_GMNB.txt"
+caminho_base = "Datasets/GCPRProsite"
+caminho_log = "Logs/log_GMNB_corrigido.txt"
 
 for dir_data in os.listdir(caminho_base):
     print(f"=================================== DATASET {dir_data} ===================================")
@@ -22,15 +22,23 @@ for dir_data in os.listdir(caminho_base):
             if f"TES{particao}" in item:   
                 test_arff = item
 
+        cols = [1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1]
+        idxs = []
+        for i, idx in enumerate(cols):
+            if idx == 1:
+                idxs.append(i)
+        print(idxs)
+
         caminho_part_treino = caminho_dataset + "/" + train_arff
         train_data, train_hier, train_cols = read_arff(caminho_part_treino)
-        X_train = train_data.to_numpy()[:, :-1]
+        X_train = train_data.to_numpy()[:, idxs]
         y_train = train_data.to_numpy()[:, -1]
 
         caminho_part_teste = caminho_dataset + "/" + test_arff
         test_data, test_hier, test_cols = read_arff(caminho_part_teste)
-        X_test = test_data.to_numpy()[:, :-1]
+        X_test = test_data.to_numpy()[:, idxs]
         y_test = test_data.to_numpy()[:, -1]
+        print(X_test.shape)
 
         model_cv = NaiveBayesH(train_hier)
         model_cv.fit(X_train, y_train)

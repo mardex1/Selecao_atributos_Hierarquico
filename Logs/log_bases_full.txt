@@ -1,0 +1,156 @@
+
+============================ GPCR-PROSITE ============================
+
+F-measure Hierárquica fold 1 = 0.6056592414208308
+
+F-measure Hierárquica fold 2 = 0.601684717208183
+
+F-measure Hierárquica fold 3 = 0.5995756289784783
+
+F-measure Hierárquica fold 4 = 0.5841024114319738
+
+F-measure Hierárquica fold 5 = 0.586769504598042
+
+F-measure Hierárquica fold 6 = 0.61175081192796
+
+F-measure Hierárquica fold 7 = 0.6096159661324464
+
+F-measure Hierárquica fold 8 = 0.5951873286628083
+
+F-measure Hierárquica fold 9 = 0.601029990911845
+
+F-measure Hierárquica fold 10 = 0.6076626076626076
+
+F-measure Hierárquica média da Validação Cruzada = 0.6003
+
+============================ GPCR-PFAM ============================
+
+F-measure Hierárquica fold 1 = 0.5881726158763985
+
+F-measure Hierárquica fold 2 = 0.60132802124834
+
+F-measure Hierárquica fold 3 = 0.6260460251046025
+
+F-measure Hierárquica fold 4 = 0.5979112271540471
+
+F-measure Hierárquica fold 5 = 0.5819607843137254
+
+F-measure Hierárquica fold 6 = 0.5965003917471925
+
+F-measure Hierárquica fold 7 = 0.5884495317377731
+
+F-measure Hierárquica fold 8 = 0.5981953290870488
+
+F-measure Hierárquica fold 9 = 0.5929806181246727
+
+F-measure Hierárquica fold 10 = 0.5938404843379835
+
+F-measure Hierárquica média da Validação Cruzada = 0.5965
+
+============================ EC-PROSITE ============================
+
+F-measure Hierárquica fold 1 = 0.9366507528461256
+
+F-measure Hierárquica fold 2 = 0.9439398109918341
+
+F-measure Hierárquica fold 3 = 0.9471656576774903
+
+F-measure Hierárquica fold 4 = 0.9448761312734253
+
+F-measure Hierárquica fold 5 = 0.9496205540824724
+
+F-measure Hierárquica fold 6 = 0.9475322772639868
+
+F-measure Hierárquica fold 7 = 0.949693026665445
+
+F-measure Hierárquica fold 8 = 0.943184947223497
+
+F-measure Hierárquica fold 9 = 0.9419106176011747
+
+F-measure Hierárquica fold 10 = 0.948905109489051
+
+F-measure Hierárquica média da Validação Cruzada = 0.9453
+
+============================ GPCR-INTERPRO ============================
+
+F-measure Hierárquica fold 1 = 0.7904648390941598
+
+F-measure Hierárquica fold 2 = 0.7863821625509471
+
+F-measure Hierárquica fold 3 = 0.7932024892292964
+
+F-measure Hierárquica fold 4 = 0.7933685728015377
+
+F-measure Hierárquica fold 5 = 0.8022083533365337
+
+F-measure Hierárquica fold 6 = 0.7968299711815562
+
+F-measure Hierárquica fold 7 = 0.7791145332050049
+
+F-measure Hierárquica fold 8 = 0.7880683184989175
+
+F-measure Hierárquica fold 9 = 0.7876169906407486
+
+F-measure Hierárquica fold 10 = 0.7995203836930455
+
+F-measure Hierárquica média da Validação Cruzada = 0.7917
+
+============================ GPCR-PRINTS ============================
+
+F-measure Hierárquica fold 1 = 0.7823086574654956
+
+F-measure Hierárquica fold 2 = 0.7962848297213622
+
+F-measure Hierárquica fold 3 = 0.777673251803073
+
+F-measure Hierárquica fold 4 = 0.7970251007127362
+
+F-measure Hierárquica fold 5 = 0.7835051546391754
+
+F-measure Hierárquica fold 6 = 0.7744360902255638
+
+F-measure Hierárquica fold 7 = 0.7890137328339575
+
+F-measure Hierárquica fold 8 = 0.7892600686856072
+
+F-measure Hierárquica fold 9 = 0.7785781396805513
+
+F-measure Hierárquica fold 10 = 0.7781591263650547
+
+F-measure Hierárquica média da Validação Cruzada = 0.7846
+
+============================ EC-PRINTS ============================
+
+F-measure Hierárquica fold 1 = 0.9276564371947287
+
+F-measure Hierárquica fold 2 = 0.9269234304623586
+
+F-measure Hierárquica fold 3 = 0.9289195402298851
+
+F-measure Hierárquica fold 4 = 0.9262926292629262
+
+F-measure Hierárquica fold 5 = 0.9287424047136806
+
+F-measure Hierárquica fold 6 = 0.9256304447501146
+
+F-measure Hierárquica fold 7 = 0.9295024784284928
+
+F-measure Hierárquica fold 8 = 0.9265547148920465
+
+F-measure Hierárquica fold 9 = 0.9258165713231223
+
+F-measure Hierárquica fold 10 = 0.9225078601812465
+
+F-measure Hierárquica média da Validação Cruzada = 0.9269
+
+============================ EC-PFAM ============================
+
+F-measure Hierárquica fold 1 = 0.9511677282377918
+
+F-measure Hierárquica fold 2 = 0.9459983384104127
+
+F-measure Hierárquica fold 3 = 0.9443009959424566
+
+F-measure Hierárquica fold 4 = 0.9450832490111305
+
+F-measure Hierárquica fold 5 = 0.945568223611622
