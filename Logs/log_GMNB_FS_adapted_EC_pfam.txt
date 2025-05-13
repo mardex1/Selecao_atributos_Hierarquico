@@ -56,3 +56,6 @@ Número colunas original = 708
 Número de colunas = 279
 Porcentagem padrões únicos: 35.437262357414454
 F-measure Hierárquica para partição 10/10 = 0.8968
+
+F-measure Hierárquica média da Validação Cruzada = 0.8922
+Desvio padrão F-measure Hierárquica = 0.008377144833
