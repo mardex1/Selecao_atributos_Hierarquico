@@ -91,13 +91,13 @@ def best_first(data, limiar):
   explorar = expande([0 for i in range(len(x.T))])
   metric_dict = {tuple(elem):avalia(elem, cols, x, y) for elem in explorar}
   visitados = [[0 for i in range(len(x.T))]]
-  min_metric_value = float('inf') # MUDAR PARA MAXIMIZAÇÃO
+  min_metric_value = float('inf') 
   retornos = 0
   melhor_subconjunto = [0 for i in range(len(x.T))]
   
   while len(metric_dict) > 0 and retornos <= limiar:
     # Retorna chave com menor valor associado.
-    best_solution_tuple = min(metric_dict.items(), key=lambda item:item[1][0]) # MUDAR PARA MAXIMIZAÇÃO
+    best_solution_tuple = min(metric_dict.items(), key=lambda item:item[1][0]) 
     best_solution = list(best_solution_tuple[0])
     print('Melhor solução atual: ', best_solution)
     print('Número de features: ', sum(best_solution))
@@ -215,7 +215,8 @@ def inconsistency_rate(data):
             freq_majoritary_class = np.max(class_counts)
             inconsistency_counts.append(len(classes_p) - freq_majoritary_class)
     porcent_padroes_unicos = n_padroes_unicos / len(padroes) * 100
-    inconsistency_rate = sum(inconsistency_counts) / len(x)
+    # inconsistency_rate = sum(inconsistency_counts) / len(x)
+    inconsistency_rate = (sum(inconsistency_counts) / (len(x) - n_padroes_unicos))
     return inconsistency_rate, porcent_padroes_unicos
 
 # data, hier, cols = read_arff('Datasets/BasesPreProcessadas/GCPR-Prosite/GPCR-PrositeTRA0.arff')

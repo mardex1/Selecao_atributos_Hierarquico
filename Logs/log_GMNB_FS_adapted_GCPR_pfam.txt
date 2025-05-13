@@ -1,0 +1,56 @@
+
+========================= DATASET GCPR-Pfam =========================
+
+Iteração 1/10Colunas resultantes da seleção de atributos: [0, 1, 3, 4, 5, 7, 8, 9, 10, 12, 14, 15, 17, 18, 25, 26, 27, 32, 33, 35, 36, 39, 41, 43, 44, 48, 52, 53, 54, 57, 69, 71, 72, 73, 74]
+Número colunas original = 75
+Número de colunas = 35
+Porcentagem padrões únicos: 24.358974358974358
+F-measure Hierárquica para partição 1/10 = 0.578
+Iteração 2/10Colunas resultantes da seleção de atributos: [0, 3, 4, 5, 7, 8, 9, 10, 12, 14, 15, 17, 18, 25, 26, 27, 32, 33, 35, 36, 39, 41, 43, 44, 48, 52, 53, 54, 57, 69, 71, 72, 73, 74]
+Número colunas original = 75
+Número de colunas = 34
+Porcentagem padrões únicos: 25.64102564102564
+F-measure Hierárquica para partição 2/10 = 0.5858
+Iteração 3/10Colunas resultantes da seleção de atributos: [0, 1, 3, 4, 5, 7, 8, 9, 10, 12, 15, 17, 18, 25, 26, 27, 32, 33, 35, 36, 39, 41, 43, 44, 48, 52, 53, 54, 56, 57, 69, 71, 72, 73, 74]
+Número colunas original = 75
+Número de colunas = 35
+Porcentagem padrões únicos: 20.27027027027027
+F-measure Hierárquica para partição 3/10 = 0.6059
+Iteração 4/10Colunas resultantes da seleção de atributos: [0, 1, 3, 4, 5, 7, 8, 9, 10, 12, 14, 15, 17, 18, 25, 26, 32, 33, 35, 39, 41, 43, 44, 45, 48, 52, 53, 54, 56, 71, 72, 73, 74]
+Número colunas original = 75
+Número de colunas = 33
+Porcentagem padrões únicos: 22.36842105263158
+F-measure Hierárquica para partição 4/10 = 0.5886
+Iteração 5/10Colunas resultantes da seleção de atributos: [0, 1, 3, 4, 5, 7, 8, 9, 10, 12, 14, 15, 17, 18, 25, 26, 27, 32, 33, 35, 36, 39, 41, 43, 44, 45, 48, 52, 53, 54, 55, 57, 63, 72, 73, 74]
+Número colunas original = 75
+Número de colunas = 36
+Porcentagem padrões únicos: 23.376623376623375
+F-measure Hierárquica para partição 5/10 = 0.5913
+Iteração 6/10Colunas resultantes da seleção de atributos: [0, 1, 3, 4, 5, 7, 8, 9, 10, 12, 14, 15, 17, 18, 25, 26, 27, 32, 33, 35, 36, 39, 41, 43, 44, 45, 48, 52, 53, 54, 55, 57, 69, 72, 73, 74]
+Número colunas original = 75
+Número de colunas = 36
+Porcentagem padrões únicos: 24.358974358974358
+F-measure Hierárquica para partição 6/10 = 0.604
+Iteração 7/10Colunas resultantes da seleção de atributos: [0, 1, 3, 4, 5, 7, 8, 9, 10, 12, 14, 15, 17, 18, 25, 26, 27, 32, 33, 35, 39, 41, 42, 44, 45, 48, 52, 53, 54, 55, 57, 69, 72, 73, 74]
+Número colunas original = 75
+Número de colunas = 35
+Porcentagem padrões únicos: 21.333333333333336
+F-measure Hierárquica para partição 7/10 = 0.5981
+Iteração 8/10Colunas resultantes da seleção de atributos: [0, 1, 3, 4, 5, 7, 8, 9, 10, 12, 15, 17, 18, 25, 26, 27, 32, 33, 35, 36, 39, 41, 43, 44, 45, 48, 52, 53, 54, 56, 57, 69, 71, 72, 73, 74]
+Número colunas original = 75
+Número de colunas = 36
+Porcentagem padrões únicos: 25.97402597402597
+F-measure Hierárquica para partição 8/10 = 0.6091
+Iteração 9/10Colunas resultantes da seleção de atributos: [0, 1, 3, 4, 5, 7, 8, 9, 10, 11, 12, 14, 15, 17, 18, 25, 26, 27, 32, 35, 36, 39, 41, 43, 44, 45, 48, 52, 53, 54, 56, 57, 65, 71, 73, 74]
+Número colunas original = 75
+Número de colunas = 36
+Porcentagem padrões únicos: 26.582278481012654
+F-measure Hierárquica para partição 9/10 = 0.6017
+Iteração 10/10Colunas resultantes da seleção de atributos: [0, 1, 3, 4, 5, 7, 8, 9, 10, 12, 14, 15, 17, 18, 25, 26, 27, 32, 33, 35, 39, 41, 43, 44, 45, 48, 52, 53, 54, 56, 57, 69, 71, 72, 73, 74]
+Número colunas original = 75
+Número de colunas = 36
+Porcentagem padrões únicos: 23.376623376623375
+F-measure Hierárquica para partição 10/10 = 0.5866
+
+F-measure Hierárquica média da Validação Cruzada = 0.5949
+Desvio padrão F-measure Hierárquica = 0.009752538505123998

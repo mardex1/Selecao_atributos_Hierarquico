@@ -1,0 +1,56 @@
+
+========================= DATASET GCPR-Prosite =========================
+
+Iteração 1/10Colunas resultantes da seleção de atributos: [0, 1, 2, 3, 4, 5, 6, 9, 10, 11, 13, 14, 20, 21, 28, 30, 31, 36, 39, 40, 42, 43, 44, 45, 46, 49, 50, 51, 53, 54, 57, 59, 60, 62, 70, 71, 73, 78, 79, 86, 87, 92, 102, 103, 104, 105, 108, 111, 112, 119, 120, 122, 125, 127, 128]
+Número colunas original = 129
+Número de colunas = 55
+Porcentagem padrões únicos: 27.77777777777778
+F-measure Hierárquica para partição 1/10 = 0.568
+Iteração 2/10Colunas resultantes da seleção de atributos: [0, 1, 2, 3, 5, 6, 10, 11, 13, 14, 20, 21, 24, 28, 30, 31, 37, 39, 40, 42, 43, 44, 45, 46, 49, 50, 51, 53, 54, 57, 59, 60, 62, 70, 71, 72, 73, 74, 76, 77, 78, 79, 88, 98, 102, 103, 104, 105, 108, 111, 112, 119, 120, 122, 125, 127, 128]
+Número colunas original = 129
+Número de colunas = 57
+Porcentagem padrões únicos: 30.158730158730158
+F-measure Hierárquica para partição 2/10 = 0.5932
+Iteração 3/10Colunas resultantes da seleção de atributos: [0, 1, 2, 3, 4, 5, 6, 10, 11, 13, 20, 21, 24, 28, 30, 31, 36, 37, 39, 40, 41, 42, 43, 44, 45, 46, 49, 50, 51, 53, 54, 57, 59, 60, 62, 70, 71, 73, 78, 79, 86, 87, 88, 92, 98, 103, 104, 105, 108, 112, 119, 120, 122, 125, 127, 128]
+Número colunas original = 129
+Número de colunas = 56
+Porcentagem padrões únicos: 28.000000000000004
+F-measure Hierárquica para partição 3/10 = 0.5766
+Iteração 4/10Colunas resultantes da seleção de atributos: [0, 1, 2, 3, 4, 5, 6, 9, 10, 11, 13, 14, 20, 21, 24, 28, 30, 31, 39, 40, 41, 42, 43, 44, 46, 49, 50, 51, 53, 54, 57, 59, 60, 62, 70, 71, 72, 73, 74, 76, 77, 78, 79, 86, 87, 88, 92, 98, 102, 103, 104, 105, 108, 111, 112, 120, 122, 126, 127, 128]
+Número colunas original = 129
+Número de colunas = 60
+Porcentagem padrões únicos: 28.346456692913385
+F-measure Hierárquica para partição 4/10 = 0.5639
+Iteração 5/10Colunas resultantes da seleção de atributos: [0, 1, 2, 3, 4, 5, 6, 9, 10, 11, 13, 14, 20, 21, 24, 28, 30, 31, 37, 39, 40, 42, 43, 44, 45, 46, 49, 50, 51, 53, 54, 57, 59, 60, 62, 70, 71, 72, 73, 74, 76, 77, 78, 79, 86, 87, 88, 98, 104, 105, 108, 111, 112, 119, 120, 122, 125, 127, 128]
+Número colunas original = 129
+Número de colunas = 59
+Porcentagem padrões únicos: 29.268292682926827
+F-measure Hierárquica para partição 5/10 = 0.563
+Iteração 6/10Colunas resultantes da seleção de atributos: [0, 1, 2, 3, 4, 5, 6, 9, 10, 11, 13, 14, 20, 21, 24, 30, 31, 36, 37, 40, 42, 43, 44, 45, 46, 49, 50, 51, 53, 54, 57, 59, 60, 62, 70, 71, 72, 73, 74, 76, 77, 78, 79, 86, 87, 88, 92, 98, 102, 103, 105, 108, 111, 112, 119, 120, 122, 125, 127, 128]
+Número colunas original = 129
+Número de colunas = 60
+Porcentagem padrões únicos: 27.559055118110237
+F-measure Hierárquica para partição 6/10 = 0.5841
+Iteração 7/10Colunas resultantes da seleção de atributos: [0, 1, 2, 3, 5, 6, 9, 10, 11, 13, 14, 20, 21, 24, 28, 30, 31, 36, 37, 39, 40, 42, 43, 44, 45, 46, 49, 50, 51, 53, 54, 57, 59, 60, 62, 70, 71, 72, 73, 74, 76, 77, 78, 79, 87, 92, 98, 102, 103, 104, 105, 108, 111, 120, 122, 125, 127, 128]
+Número colunas original = 129
+Número de colunas = 58
+Porcentagem padrões únicos: 30.46875
+F-measure Hierárquica para partição 7/10 = 0.6016
+Iteração 8/10Colunas resultantes da seleção de atributos: [0, 1, 2, 5, 6, 10, 11, 13, 14, 20, 21, 24, 28, 30, 31, 37, 39, 40, 42, 43, 45, 47, 49, 50, 51, 53, 54, 57, 59, 60, 62, 70, 71, 72, 73, 76, 77, 78, 79, 87, 88, 92, 102, 103, 104, 105, 108, 111, 112, 120, 122, 125, 127, 128]
+Número colunas original = 129
+Número de colunas = 54
+Porcentagem padrões únicos: 28.90625
+F-measure Hierárquica para partição 8/10 = 0.598
+Iteração 9/10Colunas resultantes da seleção de atributos: [0, 1, 2, 3, 4, 5, 6, 9, 10, 11, 13, 14, 20, 21, 24, 28, 30, 39, 42, 43, 44, 45, 46, 49, 50, 51, 53, 54, 57, 59, 60, 62, 70, 71, 72, 73, 74, 76, 77, 78, 79, 86, 87, 88, 92, 98, 102, 103, 104, 105, 108, 111, 112, 119, 120, 125, 127, 128]
+Número colunas original = 129
+Número de colunas = 58
+Porcentagem padrões únicos: 28.90625
+F-measure Hierárquica para partição 9/10 = 0.575
+Iteração 10/10Colunas resultantes da seleção de atributos: [0, 1, 2, 3, 4, 5, 6, 9, 10, 11, 13, 14, 20, 21, 24, 28, 30, 31, 40, 42, 43, 44, 45, 46, 49, 50, 51, 53, 54, 57, 59, 60, 62, 70, 71, 72, 73, 76, 78, 79, 86, 87, 88, 92, 98, 102, 103, 104, 105, 108, 111, 112, 119, 120, 122, 125, 127, 128]
+Número colunas original = 129
+Número de colunas = 58
+Porcentagem padrões únicos: 29.838709677419356
+F-measure Hierárquica para partição 10/10 = 0.6121
+
+F-measure Hierárquica média da Validação Cruzada = 0.5835
+Desvio padrão F-measure Hierárquica = 0.016174117410119593

@@ -1,9 +1,6 @@
 import numpy as np
-from sklearn.datasets import load_iris
-from sklearn.model_selection import train_test_split
 from read_arff import read_arff
 from multirotulo_to_monorotulo import make_monorotulo
-from sklearn.naive_bayes import GaussianNB, MultinomialNB, CategoricalNB
 
 def gera_ancestrais(classes):
         ancestrais = {}
@@ -36,6 +33,7 @@ def f_measure_hierarquica(predictions, y_true, classes):
     hierarchical_recall = numerador / denominador_recall
     f_measure = (2 * hierarchical_precision * hierarchical_recall) / (hierarchical_precision + hierarchical_recall)
     return f_measure
+
 class NaiveBayesH:
     def __init__(self, hierarquia, alpha=1):
         self.classes = self.gera_hierarquia_completa(hierarquia)
@@ -43,6 +41,7 @@ class NaiveBayesH:
 
     def fit(self, X, y):
         n_samples, n_features = X.shape
+        n_features -= 1
         self.descendentes = self.gera_descendentes(X, y) 
         self.ancestrais = gera_ancestrais(self.classes)
         # Lista com um dicionário para cada feature.
@@ -58,11 +57,10 @@ class NaiveBayesH:
         classe, counts = np.unique(y, return_counts=True)
         for c, count in zip(classe, counts):
             self.n_class_occurances[c] = count
-
         for idx, c in enumerate(self.classes):
             # Seleciona as instâncias da classe atual
             X_c = X[y == c]
-
+            X_c = X_c[:, :-1]
             n_instancias_classe_c = X_c.shape[0]
             # Para cada feature, seleciona as contagens de cada valor nessa feature.
             for feature_idx in range(n_features):
@@ -71,7 +69,8 @@ class NaiveBayesH:
 
                 # Armazena em um dicionário, pares valor do atributo e sua probabilidade (contagem do atributo / instâncias da classe c)
                 feature_prob = {val: (count + self.alpha) / (n_instancias_classe_c + self.alpha * n_valores_unicos_feat) for val, count in zip(feature_vals, counts)}
-
+                # print(feature_prob)
+                # return
                 self.feature_probs[feature_idx][c] = feature_prob
             # Soma a contagem da classe em seus ancestrais e em si mesma
             for classe in self.ancestrais[c]:
@@ -79,6 +78,8 @@ class NaiveBayesH:
         # Normaliza as probabilidades à priori, usando a formula de LaPlace
         for classe in self.prior_prob:
             self.prior_prob[classe] /= (n_samples + (self.alpha * len(self.classes)))
+        # print(self.prior_prob)
+        # print(self.feature_probs)
 
     def predict(self, X_test, usefullness=False):
         if usefullness:
@@ -97,7 +98,8 @@ class NaiveBayesH:
                 likelihood = 0
                 # para cada feature
                 for feature_idx, feature_val in enumerate(x):
-                    feature_val = int(feature_val)
+                    feature_val = feature_val
+                    # print(feature_val)
                     # Pega a probabilidade de feature, dado a classe e seu valor.
                     if feature_val in self.feature_probs[feature_idx][c]:
                         likelihood += np.log(self.feature_probs[feature_idx][c][feature_val])
@@ -105,6 +107,7 @@ class NaiveBayesH:
                         # Usa Laplace para estimar o valor
                         nvals = float(self.n_values_per_att[feature_idx])
                         likelihood += np.log(self.alpha / (self.n_class_occurances.get(c, 0) + nvals*self.alpha))
+                # print(likelihood)
 
                 posterior = prior + likelihood
                 if usefullness:
@@ -112,6 +115,7 @@ class NaiveBayesH:
                 posteriors.append(posterior)
             # np.argmax retorna o índice que maximiza o array "posteriors"
             predictions.append(self.classes[np.argmax(posteriors)])
+
 
         return np.array(predictions)
 

@@ -1,0 +1,129 @@
+
+
+========================= DATASET EC-Prints =========================
+
+F-measure Hierárquica para partição 1/10 = 0.9253
+F-measure Hierárquica para partição 2/10 = 0.9378
+F-measure Hierárquica para partição 3/10 = 0.9287
+F-measure Hierárquica para partição 4/10 = 0.9271
+F-measure Hierárquica para partição 5/10 = 0.9189
+F-measure Hierárquica para partição 6/10 = 0.9127
+F-measure Hierárquica para partição 7/10 = 0.9132
+F-measure Hierárquica para partição 8/10 = 0.9251
+F-measure Hierárquica para partição 9/10 = 0.9216
+F-measure Hierárquica para partição 10/10 = 0.9241
+
+F-measure Hierárquica média da Validação Cruzada = 0.9235
+Desvio padrão F-measure Hierárquica para partição: 10/10 = 0.0070629631894824
+
+========================= DATASET GCPR-Pfam =========================
+
+F-measure Hierárquica para partição 1/10 = 0.5772
+F-measure Hierárquica para partição 2/10 = 0.5853
+F-measure Hierárquica para partição 3/10 = 0.6042
+F-measure Hierárquica para partição 4/10 = 0.5844
+F-measure Hierárquica para partição 5/10 = 0.5927
+F-measure Hierárquica para partição 6/10 = 0.6041
+F-measure Hierárquica para partição 7/10 = 0.5961
+F-measure Hierárquica para partição 8/10 = 0.6092
+F-measure Hierárquica para partição 9/10 = 0.6029
+F-measure Hierárquica para partição 10/10 = 0.5859
+
+F-measure Hierárquica média da Validação Cruzada = 0.5942
+Desvio padrão F-measure Hierárquica para partição: 10/10 = 0.010172722416724029
+
+========================= DATASET EC-Interpro =========================
+
+F-measure Hierárquica para partição 1/10 = 0.8998
+F-measure Hierárquica para partição 2/10 = 0.9243
+F-measure Hierárquica para partição 3/10 = 0.912
+F-measure Hierárquica para partição 4/10 = 0.9068
+F-measure Hierárquica para partição 5/10 = 0.9144
+F-measure Hierárquica para partição 6/10 = 0.9109
+F-measure Hierárquica para partição 7/10 = 0.9224
+F-measure Hierárquica para partição 8/10 = 0.9091
+F-measure Hierárquica para partição 9/10 = 0.9207
+F-measure Hierárquica para partição 10/10 = 0.9028
+
+F-measure Hierárquica média da Validação Cruzada = 0.9123
+Desvio padrão F-measure Hierárquica para partição: 10/10 = 0.007808533610017873
+
+========================= DATASET EC-Prosite =========================
+
+F-measure Hierárquica para partição 1/10 = 0.937
+F-measure Hierárquica para partição 2/10 = 0.9292
+F-measure Hierárquica para partição 3/10 = 0.9417
+F-measure Hierárquica para partição 4/10 = 0.9353
+F-measure Hierárquica para partição 5/10 = 0.9476
+F-measure Hierárquica para partição 6/10 = 0.9433
+F-measure Hierárquica para partição 7/10 = 0.9252
+F-measure Hierárquica para partição 8/10 = 0.9344
+F-measure Hierárquica para partição 9/10 = 0.9334
+F-measure Hierárquica para partição 10/10 = 0.9377
+
+F-measure Hierárquica média da Validação Cruzada = 0.9365
+Desvio padrão F-measure Hierárquica para partição: 10/10 = 0.006290266100164055
+
+========================= DATASET GCPR-Prints =========================
+
+F-measure Hierárquica para partição 1/10 = 0.7474
+F-measure Hierárquica para partição 2/10 = 0.7544
+F-measure Hierárquica para partição 3/10 = 0.767
+F-measure Hierárquica para partição 4/10 = 0.7554
+F-measure Hierárquica para partição 5/10 = 0.723
+F-measure Hierárquica para partição 6/10 = 0.7575
+F-measure Hierárquica para partição 7/10 = 0.7365
+F-measure Hierárquica para partição 8/10 = 0.7648
+F-measure Hierárquica para partição 9/10 = 0.7952
+F-measure Hierárquica para partição 10/10 = 0.7452
+
+F-measure Hierárquica média da Validação Cruzada = 0.7546
+Desvio padrão F-measure Hierárquica para partição: 10/10 = 0.018392079598712054
+
+========================= DATASET GCPR-Prosite =========================
+
+F-measure Hierárquica para partição 1/10 = 0.565
+F-measure Hierárquica para partição 2/10 = 0.5881
+F-measure Hierárquica para partição 3/10 = 0.5767
+F-measure Hierárquica para partição 4/10 = 0.5607
+F-measure Hierárquica para partição 5/10 = 0.5523
+F-measure Hierárquica para partição 6/10 = 0.573
+F-measure Hierárquica para partição 7/10 = 0.5982
+F-measure Hierárquica para partição 8/10 = 0.5968
+F-measure Hierárquica para partição 9/10 = 0.5748
+F-measure Hierárquica para partição 10/10 = 0.6119
+
+F-measure Hierárquica média da Validação Cruzada = 0.5798
+Desvio padrão F-measure Hierárquica para partição: 10/10 = 0.017749947807434302
+
+========================= DATASET EC-Pfam =========================
+
+F-measure Hierárquica para partição 1/10 = 0.9035
+F-measure Hierárquica para partição 2/10 = 0.9019
+F-measure Hierárquica para partição 3/10 = 0.9019
+F-measure Hierárquica para partição 4/10 = 0.9151
+F-measure Hierárquica para partição 5/10 = 0.8962
+F-measure Hierárquica para partição 6/10 = 0.91
+F-measure Hierárquica para partição 7/10 = 0.8982
+F-measure Hierárquica para partição 8/10 = 0.8975
+F-measure Hierárquica para partição 9/10 = 0.8978
+F-measure Hierárquica para partição 10/10 = 0.8966
+
+F-measure Hierárquica média da Validação Cruzada = 0.9019
+Desvio padrão F-measure Hierárquica para partição: 10/10 = 0.0059193605492088444
+
+========================= DATASET GCPR-Interpro =========================
+
+F-measure Hierárquica para partição 1/10 = 0.7647
+F-measure Hierárquica para partição 2/10 = 0.7994
+F-measure Hierárquica para partição 3/10 = 0.7669
+F-measure Hierárquica para partição 4/10 = 0.7682
+F-measure Hierárquica para partição 5/10 = 0.7605
+F-measure Hierárquica para partição 6/10 = 0.7622
+F-measure Hierárquica para partição 7/10 = 0.7763
+F-measure Hierárquica para partição 8/10 = 0.7545
+F-measure Hierárquica para partição 9/10 = 0.7742
+F-measure Hierárquica para partição 10/10 = 0.7834
+
+F-measure Hierárquica média da Validação Cruzada = 0.771
+Desvio padrão F-measure Hierárquica para partição: 10/10 = 0.012346578227193152
