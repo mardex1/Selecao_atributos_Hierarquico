@@ -1,7 +1,7 @@
 import pandas as pd
-import matplotlib.pyplot as plt
 
 def read_arff(path):
+"""Função que lê um arquivo no formato arff, e o transforma em uma Dataframe do Pandas"""
     with open(path, 'r') as f:
         lines = f.readlines() # Lê o arquivo linha a linha
 
