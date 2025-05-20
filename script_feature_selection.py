@@ -4,8 +4,8 @@ from read_arff import read_arff
 from GMNB import NaiveBayesH, f_measure_hierarquica
 from feature_selection import best_first
 
-caminho_base = "Datasets/BasesPreProcessadas"
-caminho_log = "Logs/log_GMNB_FS.txt"
+caminho_base = "Datasets/BasesMain/"
+caminho_log = "Logs/Log_GMNB_ir_base.txt"
 for dir_data in os.listdir(caminho_base):
     print(f"=================================== DATASET {dir_data} ===================================")
     with open(caminho_log, 'a') as f:
@@ -25,8 +25,7 @@ for dir_data in os.listdir(caminho_base):
         train_data, train_hier, train_cols = read_arff(caminho_part_treino)
         n_cols_original = len(train_data.columns) - 1
 
-        _, melhor_subconjunto, i_r, porcent_melhor_subconjunto = best_first(train_data, 10)
-
+        _, melhor_subconjunto, i_r, porcent_melhor_subconjunto = best_first(train_data, 10, True)
         cols = []
         for i, idx in enumerate(melhor_subconjunto):
             if idx == 1:
@@ -37,7 +36,6 @@ for dir_data in os.listdir(caminho_base):
             f.write(f'Número de colunas = {len(cols)}\n')
             f.write(f'Porcentagem padrões únicos: {porcent_melhor_subconjunto}\n')
         print(f'Colunas resultantes da seleção de atributos: {cols}\nNúmero colunas original = {n_cols_original}\nNúmero de colunas = {len(cols)}\nPorcentagem padrões únicos: {porcent_melhor_subconjunto}\n\n')
-        
         train_data = train_data.to_numpy()
         X_train_selected = train_data[:, cols]
         y_train = train_data[:, -1]

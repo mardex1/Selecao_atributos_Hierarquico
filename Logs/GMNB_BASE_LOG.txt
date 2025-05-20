@@ -127,3 +127,6 @@ F-measure Hierárquica para partição 10/10 = 0.7834
 
 F-measure Hierárquica média da Validação Cruzada = 0.771
 Desvio padrão F-measure Hierárquica para partição: 10/10 = 0.012346578227193152
+
+========================= DATASET GCPR-Interpro =========================
+
