@@ -4,7 +4,7 @@ from read_arff import read_arff
 from GMNB import NaiveBayesH, f_measure_hierarquica
 from feature_selection import best_first
 
-caminho_base = "Datasets/pfam_teste_plano/"
+caminho_base = "Datasets/BasesMain/"
 caminho_log = "Logs/Log_GMNB_ir_base.txt"
 for dir_data in os.listdir(caminho_base):
     print(f"=================================== DATASET {dir_data} ===================================")
