@@ -1,9 +1,7 @@
 import numpy as np
 import pandas as pd
 from itertools import combinations
-
 from read_arff import read_arff
-from dataframe_to_arff import dataframe_to_arff
 
 def expande(arr):
   arr_exp = []
@@ -173,19 +171,14 @@ def inConCal(features, x, y):
 
 def find_height(y):
     # Cria uma lista com os tamanhos de cada string de label e pega o maior
-    max_len = max(len(label.split('.')) for label in y)
+    max_len = max(len(label.split('.')) for label in y) - 1
     return max_len
 
 def truncate_data(data_selecionado, nivel_atual):
   data_truncado = data_selecionado.copy()
-  
-  y_new = []
-  for idx, elem in data_truncado['class'].items():
-    temp_elem = elem
-    while len(temp_elem.split('.')) > nivel_atual:
-       temp_elem_list = temp_elem.split('.')[:-1]
-       temp_elem = '.'.join(temp_elem_list)
-    data_truncado.loc[idx, 'class'] = temp_elem
+  data_truncado['class'] = (
+      data_truncado['class'].astype(str).str.split('.').apply(lambda parts: '.'.join(parts[:nivel_atual+1]))
+  )
   return data_truncado
 
 
@@ -194,17 +187,17 @@ def inconsistency_rate_h(data):
     arr_res = []
     porcent_padroes_unicos_arr = []
     # Itera por cada nível
+    depth = data['class'].astype(str).str.split('.').str.len() - 1
+    weights = [(nivel_maximo - i + 1) * (2 / (nivel_maximo * (nivel_maximo + 1))) for i in range(1, nivel_maximo + 1)]
     for nivel_atual in range(1, nivel_maximo+1):
         # Seleciona um subconjunto a qual todas as classes pertencem ou são descendentes do nível atual 
-        data_selecionado = data[data['class'].str.split('.').apply(len) >= nivel_atual]
-
+        data_selecionado = data[depth >= nivel_atual]
         # Todas as classes descendentes são transformadas em classe de um único nível:
         # nivel_atual = 2 - g/w/b -> g/w
         data_truncado = truncate_data(data_selecionado, nivel_atual)
 
-        w_i = (nivel_maximo - nivel_atual + 1) * (2/(nivel_maximo*(nivel_maximo+1))) # pesos somam 1
         i_r, porcent_padroes_unicos = inconsistency_rate(data_truncado, True)
-        arr_res.append(i_r*w_i)
+        arr_res.append(i_r*weights[nivel_atual-1])
         porcent_padroes_unicos_arr.append(porcent_padroes_unicos)
     return sum(arr_res), np.mean(porcent_padroes_unicos)
 

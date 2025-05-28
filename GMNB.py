@@ -1,6 +1,39 @@
 import numpy as np
 from read_arff import read_arff
 
+def gera_ancestrais(classes):
+    """Função que gera os ancenstrais de cada classe, armazenando em um dicionário."""  
+    ancestrais = {}
+    for c1 in classes:
+        for c2 in classes:
+            if c2 in c1 and c1 not in ancestrais:
+                ancestrais[c1] = [c2]
+            elif c2 in c1 and c1 in ancestrais:
+                ancestrais[c1].append(c2)
+    return ancestrais
+
+def f_measure_hierarquica(predictions, y_true, classes):
+    """Implementação da métrica f_measure hierárquica, utilizada para avaliar a performance do modelo."""
+    ancestrais = gera_ancestrais(classes)
+    f_measure = 0
+    numerador = 0
+    denominador_precision = 0
+    denominador_recall = 0
+    for classe_predita, classe_verdadeira in zip(predictions, y_true):
+        ancestrais_classe_predita = ancestrais[classe_predita]
+        ancestrais_classe_verdadeira = ancestrais[classe_verdadeira]
+        classes_comum = 0
+        for c1 in ancestrais_classe_predita:
+            for c2 in ancestrais_classe_verdadeira:
+                if c1 == c2:
+                    classes_comum += 1
+        numerador += classes_comum
+        denominador_precision += len(ancestrais_classe_predita)
+        denominador_recall += len(ancestrais_classe_verdadeira)
+    hierarchical_precision = numerador / denominador_precision
+    hierarchical_recall = numerador / denominador_recall
+    f_measure = (2 * hierarchical_precision * hierarchical_recall) / (hierarchical_precision + hierarchical_recall)
+    return f_measure
 
 class NaiveBayesH:
     def __init__(self, hierarquia, alpha=1):
@@ -11,7 +44,7 @@ class NaiveBayesH:
         n_samples, n_features = X.shape
         # n_features -= 1 # Removendo a classe
         # Dicionário com descendendentes e ancestrais para cada classe
-        self.descendentes = self.gera_descendentes(X, y) 
+        self.descendentes = self.gera_descendentes() 
         self.ancestrais = gera_ancestrais(self.classes)
 
         # Lista com um dicionário para cada feature.
@@ -32,10 +65,12 @@ class NaiveBayesH:
         for c, count in zip(classe, counts):
             self.n_class_occurances[c] = count
 
+        X_with_class = np.concatenate((X, y.reshape(-1 ,1)), axis=1)
         # Itera as classes
         for idx, c in enumerate(self.classes):
             # Seleciona as instâncias da classe atual
-            X_c = X[y == c]
+            X_c = X_with_class[y == c]
+            X_c = X_c[:, :-1]
             # Remove o atributo classe, já que não é mais necessário
             # X_c = X_c[:, :-1]
 
@@ -99,7 +134,7 @@ class NaiveBayesH:
 
         return np.array(predictions)
 
-    def gera_descendentes(self, X, y):
+    def gera_descendentes(self):
         """Função que gera os descendentes de cada classe, armazenando em um dicionário"""
         descendentes = {}
         for c1 in self.classes:
@@ -135,38 +170,3 @@ class NaiveBayesH:
                     classe = '.'.join(classe)
         return hierarquia_completa
         
-def gera_ancestrais(classes):
-    """Função que gera os ancenstrais de cada classe, armazenando em um dicionário."""  
-    ancestrais = {}
-    for c1 in classes:
-        for c2 in classes:
-            if c2 in c1 and c1 not in ancestrais:
-                ancestrais[c1] = [c2]
-            elif c2 in c1 and c1 in ancestrais:
-                ancestrais[c1].append(c2)
-    return ancestrais
-
-def f_measure_hierarquica(predictions, y_true, classes):
-    """Implementação da métrica f_measure hierárquica, utilizada para avaliar a performance do modelo."""
-    ancestrais = gera_ancestrais(classes)
-    f_measure = 0
-    numerador = 0
-    denominador_precision = 0
-    denominador_recall = 0
-    for classe_predita, classe_verdadeira in zip(predictions, y_true):
-        ancestrais_classe_predita = ancestrais[classe_predita]
-        ancestrais_classe_verdadeira = ancestrais[classe_verdadeira]
-        classes_comum = 0
-        for c1 in ancestrais_classe_predita:
-            for c2 in ancestrais_classe_verdadeira:
-                if c1 == c2:
-                    classes_comum += 1
-        numerador += classes_comum
-        denominador_precision += len(ancestrais_classe_predita)
-        denominador_recall += len(ancestrais_classe_verdadeira)
-    hierarchical_precision = numerador / denominador_precision
-    hierarchical_recall = numerador / denominador_recall
-    f_measure = (2 * hierarchical_precision * hierarchical_recall) / (hierarchical_precision + hierarchical_recall)
-    return f_measure
-
-

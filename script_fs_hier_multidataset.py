@@ -1,32 +1,39 @@
 import os
 import numpy as np
+import sys
 from read_arff import read_arff
 from GMNB import NaiveBayesH, f_measure_hierarquica
 from feature_selection import best_first
-"Datasets/BasesMain/EC-Interpro"
 
-caminho_base = "Datasets/BasesMain/EC-Interpro"
-caminho_log = "Logs/log_adapted_EC_Interpro.txt"
-f_measures = []
-nome_dataset = caminho_base.split('/')[-1]
+# Getting the argument
+if len(sys.argv) < 2:
+    print("Please provide a dataset")
+    sys.exit(1)
+
+dataset_name = sys.argv[1]
+
+caminho_base = "Datasets/BasesMain/"
+caminho_log = f"Logs/Adapted/{dataset_name}.txt"
+
+print(f"=================================== DATASET {dataset_name} ===================================")
 with open(caminho_log, 'a') as f:
-    f.write(f"\n\n========================= DATASET {nome_dataset} =========================\n\n")
+    f.write(f"\n\n========================= DATASET {dataset_name} =========================\n\n")
+
+caminho_dataset = caminho_base + "/" + dataset_name
+f_measures = []
 for particao in range(10):
     print(f"Iteração {particao+1}/10")
-    with open(caminho_log, 'a') as f:
-        f.write(f"Iteração {particao+1}/10")
-    for idx, item in enumerate(os.listdir(caminho_base)):
+    for idx, item in enumerate(os.listdir(caminho_dataset)):
         if f"TRA{particao}" in item:
             train_arff = item
         if f"TES{particao}" in item:   
             test_arff = item
 
-    caminho_part_treino = caminho_base + "/" + train_arff
+    caminho_part_treino = caminho_dataset + "/" + train_arff
     train_data, train_hier, train_cols = read_arff(caminho_part_treino)
     n_cols_original = len(train_data.columns) - 1
 
-    _, melhor_subconjunto, i_r, porcent_melhor_subconjunto = best_first(train_data, 50)
-
+    _, melhor_subconjunto, i_r, porcent_melhor_subconjunto = best_first(train_data, 10, True)
     cols = []
     for i, idx in enumerate(melhor_subconjunto):
         if idx == 1:
@@ -37,12 +44,11 @@ for particao in range(10):
         f.write(f'Número de colunas = {len(cols)}\n')
         f.write(f'Porcentagem padrões únicos: {porcent_melhor_subconjunto}\n')
     print(f'Colunas resultantes da seleção de atributos: {cols}\nNúmero colunas original = {n_cols_original}\nNúmero de colunas = {len(cols)}\nPorcentagem padrões únicos: {porcent_melhor_subconjunto}\n\n')
-    
     train_data = train_data.to_numpy()
     X_train_selected = train_data[:, cols]
     y_train = train_data[:, -1]
 
-    caminho_part_teste = caminho_base + "/" + test_arff
+    caminho_part_teste = caminho_dataset + "/" + test_arff
     test_data, test_hier, test_cols = read_arff(caminho_part_teste)
     X_test = test_data.to_numpy()[:, cols]
     y_test = test_data.to_numpy()[:, -1]
@@ -55,9 +61,9 @@ for particao in range(10):
     f_measures.append(f_measure)
     print(f"CV f_measure={f_measure}")
     with open(caminho_log, 'a') as f:
-        f.write(f"F-measure Hierárquica para partição {particao+1}/10 = {round(f_measure, 4)}\n")
+        f.write(f"F-measure Hierárquica para partição {particao+1}/10 = {f_measure} aprox:{round(f_measure, 4)}\n")
 with open(caminho_log, 'a') as f:
-    f.write(f"\nF-measure Hierárquica média da Validação Cruzada = {round(np.mean(f_measures), 4)}\n")
-    f.write(f"Desvio padrão F-measure Hierárquica = {np.std(f_measures)}")
+    f.write(f"\nF-measure Hierárquica média da Validação Cruzada = {np.mean(f_measures)} aprox: {round(np.mean(f_measures), 4)}\n")
+    f.write(f"Desvio padrão F-measure Hierárquica para partição: {particao+1}/10 = {np.std(f_measures)}")
 print(np.mean(f_measures))
 
