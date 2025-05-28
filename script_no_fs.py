@@ -3,7 +3,7 @@ import numpy as np
 from read_arff import read_arff
 from GMNB import NaiveBayesH, f_measure_hierarquica
 
-caminho_base = "Datasets/pfam_teste_plano/"
+caminho_base = "Datasets/BasesMain/"
 caminho_log = "Logs/GMNB_BASE_LOG.txt"
 
 for dir_data in os.listdir(caminho_base):

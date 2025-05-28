@@ -5,7 +5,7 @@ from GMNB import NaiveBayesH, f_measure_hierarquica
 from feature_selection import best_first
 
 caminho_base = "Datasets/BasesMain/"
-caminho_log = "Logs/teste.txt"
+caminho_log = "Logs/log_GMNB_FS_adapted.txt"
 for dir_data in os.listdir(caminho_base):
     print(f"=================================== DATASET {dir_data} ===================================")
     with open(caminho_log, 'a') as f:

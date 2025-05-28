@@ -42,63 +42,6 @@ def avalia_h(arr, cols, x, y):
     i_r, porcent_padroes_unicos = inconsistency_rate_h(data)
     return i_r, porcent_padroes_unicos
 
-
-def entropy_c(A):
-  values, counts = np.unique(A, return_counts=True)
-  prob = counts/len(A)
-  entropy = -np.sum(prob*np.log2(prob))
-  return entropy
-
-def conserta_y(y):
-  dict_count = {}
-  for elem in y:
-    dict_count[elem] = 0
-    while len(elem[:-2]) > 1:
-      elem = elem[:-2]
-      dict_count[elem] = 0
-  return dict_count
-
-def entropy_h(A):
-  values = np.unique(A)
-  dict_count = conserta_y(A)
-  nivel_maximo = 2
-  arr_res = []
-  for elem in A:
-    dict_count[elem] += 1
-    while len(elem[:-2]) > 1:
-      elem = elem[:-2]
-      dict_count[elem] += 1
-  for key, value in dict_count.items():
-    prob = value/len(A)
-    nivel_atual = len(key.split('.')) - 1
-    w_i = (nivel_maximo - nivel_atual + 1) * (2/(nivel_maximo * (nivel_maximo + 1)))
-    arr_res.append(prob * np.log2(prob) * w_i if prob != 0 else 0)
-  return -sum(arr_res)
-
-def conditional_entropy_h(atributo, atributo_classe):
-  n = len(atributo)
-  sum = 0
-  for valor in np.unique(atributo):
-    indices = np.where(valor == atributo)[0]
-    k = len(indices)
-    entropia_sub_data = entropy_h(atributo_classe[indices])
-    sum += k/n * entropia_sub_data
-  return sum
-
-def symmetrical_uncertainty_h(data):
-  x = data.drop('class', axis=1)
-  y = data['class']
-  symmetrical_uncertainties = []
-  for col in x.columns:
-    entropy_x = entropy_c(x[col])
-    entropy_y = entropy_h(y)
-    cond_entropy_h = conditional_entropy_h(x[col], y)
-    ganho_informacao = entropy_y - cond_entropy_h
-    sym_unc = 2*ganho_informacao/(entropy_x + entropy_y)
-    symmetrical_uncertainties.append(sym_unc)
-  return sum(symmetrical_uncertainties) / len(x.columns)
-
-
 def best_first(data, limiar, hierarchical):
     if hierarchical is True:
         avalia = avalia_h
@@ -120,7 +63,6 @@ def best_first(data, limiar, hierarchical):
     # Retorna chave com menor valor associado.
         best_solution_tuple = min(metric_dict.items(), key=lambda item: item[1][0]) 
         best_solution = list(best_solution_tuple[0])
-        print('Melhor solução atual: ', best_solution)
         print('Número de features: ', sum(best_solution))
         print('Inconsistency_rate: ', metric_dict[tuple(best_solution)][0])
         print(f'Porcentagem de valores únicos: {round(metric_dict[tuple(best_solution)][1], 2)}%')
@@ -143,31 +85,6 @@ def best_first(data, limiar, hierarchical):
                 metric_dict[tuple(elem)] = avalia(elem, cols, x, y)
 
     return visitados, melhor_subconjunto, min_metric_value, porcent_unique_melhor_subconjunto
-
-
-def find_subset(S, D):
-    y = D['class']
-    x = D.drop('class', axis=1)
-
-    # Calcula a inconsistência para o conjunto completo
-    valor_conjunto_completo = inConCal(S, x, y)
-    
-    for tam in range(1, len(S)):
-        # Gera todos os subconjuntos de tamanho = tam
-        for subconjuntos in combinations(S, tam):
-            
-            subconjuntos = list(set(subconjuntos))
-            # Verifica se o subconjunto tem a inconsistencia menor que o conjunto completo.
-            if inConCal(subconjuntos, x, y) <= valor_conjunto_completo:
-                return subconjuntos
-    return None
-
-def inConCal(features, x, y):
-    data = pd.DataFrame(x, columns=features)
-    data['class'] = y
-    ir = inconsistency_rate_h(data)
-    print(f'Número features={len(features)} -> Inconsistency rate={ir}')
-    return ir
 
 def find_height(y):
     # Cria uma lista com os tamanhos de cada string de label e pega o maior
@@ -195,6 +112,10 @@ def inconsistency_rate_h(data):
         # Todas as classes descendentes são transformadas em classe de um único nível:
         # nivel_atual = 2 - g/w/b -> g/w
         data_truncado = truncate_data(data_selecionado, nivel_atual)
+        print(data_truncado)
+        print(weights)
+        print(nivel_atual)
+        print(weights[nivel_atual-1])
 
         i_r, porcent_padroes_unicos = inconsistency_rate(data_truncado, True)
         arr_res.append(i_r*weights[nivel_atual-1])
@@ -241,7 +162,3 @@ def inconsistency_rate(data, adapted):
     else:
         inconsistency_rate = sum(inconsistency_counts) / len(x)
     return inconsistency_rate, porcent_padroes_unicos
-
-# data, hier, cols = read_arff('Datasets/BasesPreProcessadas/GCPR-Prosite/GPCR-PrositeTRA0.arff')
-
-# print(best_first(data, 5))
